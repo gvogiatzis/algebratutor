@@ -3,6 +3,8 @@ import numpy as np
 import sympy as sp
 from IPython.display import display
 
+sp.init_printing()
+
 num_iters = 10
 tot_score = 0
 
