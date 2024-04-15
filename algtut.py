@@ -106,7 +106,7 @@ elif unknowns==2:
         display(eqA)
         display(eqB)
 
-        display(sp.solve((eqA,eqB),(x,y)))
+        # display(sp.solve((eqA,eqB),(x,y)))
 
         x_ = sp.sympify(input("\nx="))
         y_ = sp.sympify(input("\ny="))
