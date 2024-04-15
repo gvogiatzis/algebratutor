@@ -1,0 +1,2 @@
+difficulty:4
+unknowns:1
