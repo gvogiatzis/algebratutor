@@ -91,14 +91,14 @@ elif unknowns==2:
     for i in range(num_iters):
         valid_soln=False
         while not valid_soln:
-            xval = np.random.choice(nums)
-            yval = np.random.choice(nums)
+            xval = choose_number(max_e, max_d)
+            yval = choose_number(max_e, max_d)
             [ax,ay] = np.random.choice(nums_nz,2,replace=True)
             [bx,by] = np.random.choice(nums_nz,2,replace=True)
-            a = ax*xval+ay*yval
-            b = bx*xval+by*yval
-            eqA = sp.Eq(ax*x+ay*y,a)
-            eqB = sp.Eq(bx*x+by*y,b)        
+            a_1,a_2 = sp.fraction(ax*xval+ay*yval)
+            b_1,b_2 = sp.fraction(bx*xval+by*yval)
+            eqA = sp.Eq((ax*x+ay*y)*a_2,a_1)
+            eqB = sp.Eq((bx*x+by*y)*b_2,b_1)        
             if len(sp.solve((eqA,eqB),(x,y)))==2:
                 valid_soln=True
 
@@ -106,8 +106,10 @@ elif unknowns==2:
         display(eqA)
         display(eqB)
 
-        x_ = int(input("\nx="))
-        y_ = int(input("\ny="))
+        display(sp.solve((eqA,eqB),(x,y)))
+
+        x_ = sp.sympify(input("\nx="))
+        y_ = sp.sympify(input("\ny="))
         if xval==x_ and yval==y_:
             print("Correct. \N{smiling face with sunglasses}")
             tot_score += 1
