@@ -1,2 +1,3 @@
-difficulty:3
-unknowns:2
+difficulty:2
+unknowns:1
+name:Avraam

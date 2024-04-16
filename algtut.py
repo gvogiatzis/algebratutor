@@ -2,6 +2,8 @@ import numpy as np
 
 import sympy as sp
 from IPython.display import display
+import mailtrap as mt
+from datetime import datetime
 
 def save_dict(optdict, fname="options.txt", delim=":"):
     with open(fname, 'w') as file:
@@ -14,7 +16,7 @@ def load_dict(fname="options.txt", delim=":"):
         optdict = {} 
         for line in lines: 
             key, value = line.strip().split(delim) 
-            optdict[key] = int(value)
+            optdict[key] = value
         return optdict
 
 
@@ -27,8 +29,12 @@ def choose_number(max_enum, max_denom=1, is_pos=False):
 
 opts = load_dict()
 
-difficulty_def = opts['difficulty']
-unknowns_def = opts['unknowns']
+difficulty_def = int(opts['difficulty'])
+unknowns_def = int(opts['unknowns'])
+name = opts['name']
+
+
+print(f"Hello {name}. Ready for some equations? Here we go...")
 
 tot_score = 0
 
@@ -63,7 +69,7 @@ num_iters = 10
 unknowns_inp = input(f"How many unknowns: (1 or 2)  [{unknowns_def}] ")
 unknowns = unknowns_def if unknowns_inp.strip()=="" else int(unknowns_inp)
 
-save_dict({"difficulty":difficulty, "unknowns":unknowns})
+save_dict({"difficulty":difficulty, "unknowns":unknowns, "name":name})
 
 if unknowns==1:
     for i in range(num_iters):
@@ -116,7 +122,19 @@ elif unknowns==2:
         else:
             print(f"Incorrect. \N{slightly frowning face}\nThe correct answer was x={xval} and y={yval}.")
 
-print(f"\n\nYou solved {tot_score} out of {num_iters} problems correctly.")
 
+s = f"\n\nYou solved {tot_score} out of {num_iters} problems correctly.\n"
 if tot_score==num_iters:
-    print("That's a perfect score! Well done! \N{Sparkling Heart}")
+    s += "That's a perfect score! Well done! \N{Sparkling Heart}"
+
+print(s)
+now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+mail = mt.Mail(
+    sender=mt.Address(email="mailtrap@demomailtrap.com", name="Math test results"),
+    to=[mt.Address(email="y_vog@yahoo.com")],
+    subject=f"Math test ({name}): {tot_score}/{num_iters}",
+    text=f"Test taken at {now}\n\n" + s
+)
+
+client = mt.MailtrapClient(token="504aeeabe79239741fecdcba8b988662")
+client.send(mail)
