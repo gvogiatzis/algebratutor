@@ -26,6 +26,7 @@ def choose_number(max_enum, max_denom=1, is_pos=False):
     s = np.random.choice([-1,1])
     return sp.sympify(f"{s}*{a}/{b}" if not is_pos else a/b)
 
+sp.init_printing()
 
 opts = load_dict()
 
